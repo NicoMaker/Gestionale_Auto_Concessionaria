@@ -4,6 +4,7 @@ import { renderTable } from "../components/Table.js";
 import { buildForm } from "../components/Form.js";
 import { openModal, confirmDialog } from "../components/Modal.js";
 import { showToast } from "../components/Toast.js";
+import { onEntityChange } from "../realtime.js";
 
 const PAGE_SIZE = 10;
 
@@ -121,4 +122,12 @@ export async function renderEntityPage(container, entityName) {
   });
 
   await load();
+
+  // Aggiornamento live: se un altro utente crea/modifica/elimina un record
+  // di questa stessa tabella, la pagina si ricarica da sola.
+  const unsubscribe = onEntityChange(entityName, (action) => {
+    showToast(`Un altro utente ha aggiornato "${entity.label.toLowerCase()}" in tempo reale.`, "info", 2500);
+    load();
+  });
+  window.addEventListener("hashchange", unsubscribe, { once: true });
 }

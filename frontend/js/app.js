@@ -6,6 +6,7 @@ import { renderTopbar } from "./components/Topbar.js";
 import { renderDashboard } from "./pages/Dashboard.js";
 import { renderEntityPage } from "./pages/EntityPage.js";
 import { showToast } from "./components/Toast.js";
+import { initRealtime } from "./realtime.js";
 
 async function bootstrap() {
   const appEl = document.getElementById("app");
@@ -60,6 +61,7 @@ async function bootstrap() {
   });
 
   router.resolve();
+  initRealtime();
 }
 
 bootstrap();
