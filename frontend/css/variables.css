@@ -1,0 +1,81 @@
+/**
+ * DATI FRONTEND — CSS
+ * Design tokens centralizzati: cambiando questi valori si aggiorna
+ * automaticamente l'intero tema dell'applicazione.
+ */
+:root {
+  /* Palette primaria */
+  --color-bg: #0f1420;
+  --color-bg-elevated: #161d2e;
+  --color-bg-card: #1b2334;
+  --color-bg-hover: #212b40;
+  --color-border: #2a3450;
+
+  --color-primary: #4f7cff;
+  --color-primary-hover: #6b91ff;
+  --color-primary-soft: rgba(79, 124, 255, 0.15);
+
+  --color-accent: #14c9b1;
+  --color-accent-soft: rgba(20, 201, 177, 0.15);
+
+  --color-warning: #f5a623;
+  --color-warning-soft: rgba(245, 166, 35, 0.15);
+
+  --color-danger: #ef4d5e;
+  --color-danger-soft: rgba(239, 77, 94, 0.15);
+
+  --color-success: #34c471;
+  --color-success-soft: rgba(52, 196, 113, 0.15);
+
+  --color-text: #e9edf7;
+  --color-text-muted: #98a2bd;
+  --color-text-faint: #626d8c;
+
+  /* Tipografia */
+  --font-main: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.85rem;
+  --font-size-md: 0.95rem;
+  --font-size-lg: 1.15rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2rem;
+
+  /* Spaziatura */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* Bordi e ombre */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 999px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.45);
+
+  /* Layout */
+  --sidebar-width: 264px;
+  --sidebar-width-collapsed: 76px;
+  --topbar-height: 68px;
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+  --color-bg: #f4f6fb;
+  --color-bg-elevated: #ffffff;
+  --color-bg-card: #ffffff;
+  --color-bg-hover: #eef1f8;
+  --color-border: #e2e6f0;
+  --color-text: #1a2035;
+  --color-text-muted: #5b6480;
+  --color-text-faint: #8b93ab;
+  --shadow-sm: 0 2px 8px rgba(20, 24, 40, 0.06);
+  --shadow-md: 0 8px 24px rgba(20, 24, 40, 0.08);
+  --shadow-lg: 0 16px 48px rgba(20, 24, 40, 0.12);
+}

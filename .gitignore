@@ -1,3 +1,3 @@
-node_modules/
-db/gestionale.db
-*.log
+backend/node_modules/
+backend/data/gestionale.db
+backend/.env

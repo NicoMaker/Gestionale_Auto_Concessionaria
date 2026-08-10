@@ -1,0 +1,10 @@
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+
+.modal-overlay { animation: fadeIn var(--transition-fast); }
+.modal { animation: slideUp var(--transition-base); }
+.toast { animation: slideIn var(--transition-base); }
+.card, .stat-card { animation: fadeIn var(--transition-base); }
