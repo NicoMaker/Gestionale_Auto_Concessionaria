@@ -1,0 +1,318 @@
+erDiagram
+  sedi {
+    INTEGER id PK
+    TEXT nome
+    TEXT indirizzo
+    TEXT citta
+    TEXT cap
+    TEXT telefono
+    TEXT email
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  ruoli {
+    INTEGER id PK
+    TEXT nome
+    TEXT descrizione
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  dipendenti {
+    INTEGER id PK
+    TEXT nome
+    TEXT cognome
+    TEXT email
+    TEXT telefono
+    INTEGER ruolo_id FK
+    INTEGER sede_id FK
+    TEXT data_assunzione
+    REAL stipendio
+    INTEGER attivo
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  clienti {
+    INTEGER id PK
+    TEXT nome
+    TEXT cognome
+    TEXT email
+    TEXT telefono
+    TEXT indirizzo
+    TEXT citta
+    TEXT cap
+    TEXT codice_fiscale
+    TEXT data_nascita
+    TEXT note
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  marche {
+    INTEGER id PK
+    TEXT nome
+    TEXT paese_origine
+    TEXT logo_url
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  categorie {
+    INTEGER id PK
+    TEXT nome
+    TEXT descrizione
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  modelli {
+    INTEGER id PK
+    INTEGER marca_id FK
+    INTEGER categoria_id FK
+    TEXT nome
+    INTEGER anno_inizio_produzione
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  auto {
+    INTEGER id PK
+    TEXT targa
+    INTEGER modello_id FK
+    INTEGER anno
+    TEXT colore
+    INTEGER km
+    REAL prezzo
+    REAL prezzo_acquisto
+    TEXT stato
+    TEXT alimentazione
+    TEXT cambio
+    INTEGER cilindrata
+    INTEGER potenza_cv
+    INTEGER cliente_id FK
+    INTEGER sede_id FK
+    INTEGER venditore_id FK
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  immagini_auto {
+    INTEGER id PK
+    INTEGER auto_id FK
+    TEXT url
+    INTEGER principale
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  vendite {
+    INTEGER id PK
+    INTEGER auto_id FK
+    INTEGER cliente_id FK
+    INTEGER venditore_id FK
+    TEXT data_vendita
+    REAL prezzo_vendita
+    REAL sconto
+    TEXT metodo_pagamento
+    TEXT stato
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  noleggi {
+    INTEGER id PK
+    INTEGER auto_id FK
+    INTEGER cliente_id FK
+    TEXT data_inizio
+    TEXT data_fine
+    REAL prezzo_giornaliero
+    INTEGER km_percorsi
+    TEXT stato
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  tipi_manutenzione {
+    INTEGER id PK
+    TEXT nome
+    TEXT descrizione
+    REAL costo_medio
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  manutenzioni {
+    INTEGER id PK
+    INTEGER auto_id FK
+    INTEGER tipo_id FK
+    TEXT data
+    TEXT descrizione
+    REAL costo
+    INTEGER km
+    TEXT officina
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  fornitori {
+    INTEGER id PK
+    TEXT ragione_sociale
+    TEXT partita_iva
+    TEXT telefono
+    TEXT email
+    TEXT indirizzo
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  ricambi {
+    INTEGER id PK
+    TEXT nome
+    TEXT codice
+    INTEGER fornitore_id FK
+    REAL prezzo_unitario
+    INTEGER quantita_magazzino
+    INTEGER scorta_minima
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  ordini_ricambi {
+    INTEGER id PK
+    INTEGER fornitore_id FK
+    TEXT data_ordine
+    TEXT data_consegna
+    TEXT stato
+    REAL totale
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  appuntamenti {
+    INTEGER id PK
+    INTEGER cliente_id FK
+    INTEGER dipendente_id FK
+    INTEGER auto_id FK
+    TEXT data_ora
+    TEXT tipo
+    TEXT note
+    TEXT stato
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  documenti {
+    INTEGER id PK
+    INTEGER auto_id FK
+    INTEGER cliente_id FK
+    TEXT tipo
+    TEXT nome_file
+    TEXT url
+    TEXT data_caricamento
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  pagamenti {
+    INTEGER id PK
+    INTEGER vendita_id FK
+    INTEGER noleggio_id FK
+    REAL importo
+    TEXT metodo
+    TEXT data_pagamento
+    TEXT stato
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  assicurazioni {
+    INTEGER id PK
+    INTEGER auto_id FK
+    TEXT compagnia
+    TEXT numero_polizza
+    TEXT data_inizio
+    TEXT data_scadenza
+    REAL premio_annuo
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  revisioni {
+    INTEGER id PK
+    INTEGER auto_id FK
+    TEXT data_revisione
+    TEXT data_scadenza
+    TEXT esito
+    REAL costo
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  contratti {
+    INTEGER id PK
+    INTEGER vendita_id FK
+    INTEGER noleggio_id FK
+    TEXT numero_contratto
+    TEXT data_firma
+    TEXT url_pdf
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  recensioni {
+    INTEGER id PK
+    INTEGER cliente_id FK
+    INTEGER auto_id FK
+    INTEGER valutazione
+    TEXT commento
+    TEXT data
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  promozioni {
+    INTEGER id PK
+    TEXT nome
+    TEXT descrizione
+    REAL sconto_percentuale
+    TEXT data_inizio
+    TEXT data_fine
+    INTEGER attiva
+    TEXT created_at
+    TEXT updated_at
+  }
+
+  ruoli |o--o{ dipendenti : "ruolo_id"
+  sedi |o--o{ dipendenti : "sede_id"
+  marche ||--o{ modelli : "marca_id"
+  categorie |o--o{ modelli : "categoria_id"
+  modelli ||--o{ auto : "modello_id"
+  clienti |o--o{ auto : "cliente_id"
+  sedi |o--o{ auto : "sede_id"
+  dipendenti |o--o{ auto : "venditore_id"
+  auto ||--o{ immagini_auto : "auto_id"
+  auto ||--o{ vendite : "auto_id"
+  clienti ||--o{ vendite : "cliente_id"
+  dipendenti |o--o{ vendite : "venditore_id"
+  auto ||--o{ noleggi : "auto_id"
+  clienti ||--o{ noleggi : "cliente_id"
+  auto ||--o{ manutenzioni : "auto_id"
+  tipi_manutenzione |o--o{ manutenzioni : "tipo_id"
+  fornitori |o--o{ ricambi : "fornitore_id"
+  fornitori ||--o{ ordini_ricambi : "fornitore_id"
+  clienti ||--o{ appuntamenti : "cliente_id"
+  dipendenti |o--o{ appuntamenti : "dipendente_id"
+  auto |o--o{ appuntamenti : "auto_id"
+  auto |o--o{ documenti : "auto_id"
+  clienti |o--o{ documenti : "cliente_id"
+  vendite |o--o{ pagamenti : "vendita_id"
+  noleggi |o--o{ pagamenti : "noleggio_id"
+  auto ||--o{ assicurazioni : "auto_id"
+  auto ||--o{ revisioni : "auto_id"
+  vendite |o--o{ contratti : "vendita_id"
+  noleggi |o--o{ contratti : "noleggio_id"
+  clienti ||--o{ recensioni : "cliente_id"
+  auto |o--o{ recensioni : "auto_id"
+

@@ -1,4 +1,5 @@
 const GenericRepository = require("../repositories/genericRepository");
+const realtime = require("../realtime");
 
 /** Valida il body rispetto ai campi "required" dell'entità */
 function validate(entity, body, { partial = false } = {}) {
@@ -46,6 +47,7 @@ function buildController(entity) {
         if (errors.length) return res.status(400).json({ errors });
         const id = await repo.create(req.body);
         const row = await repo.findById(id);
+        realtime.emitEntityChange(entity.name, "create", row);
         res.status(201).json(row);
       } catch (err) {
         next(err);
@@ -60,6 +62,7 @@ function buildController(entity) {
         if (errors.length) return res.status(400).json({ errors });
         await repo.update(req.params.id, req.body);
         const row = await repo.findById(req.params.id);
+        realtime.emitEntityChange(entity.name, "update", row);
         res.json(row);
       } catch (err) {
         next(err);
@@ -70,6 +73,7 @@ function buildController(entity) {
       try {
         const changes = await repo.remove(req.params.id);
         if (!changes) return res.status(404).json({ error: `${entity.label} non trovato/a.` });
+        realtime.emitEntityChange(entity.name, "delete", { id: Number(req.params.id) });
         res.status(204).end();
       } catch (err) {
         next(err);

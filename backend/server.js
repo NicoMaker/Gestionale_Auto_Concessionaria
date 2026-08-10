@@ -1,38 +1,38 @@
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
+const http = require("http");
 
+const { creaApp } = require("./app");
 const { createTables } = require("./config/db");
 const seed = require("./data/seed");
-const apiRouter = require("./routes");
-const { errorHandler, notFound } = require("./middleware/errorHandler");
+const realtime = require("./realtime");
+const { getLocalIP, getPublicIP } = require("./utils/network");
 
-const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
+async function initDatabase() {
+  createTables();
+  // piccola attesa per lasciare che le CREATE TABLE (in coda su db.serialize) si completino
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  await seed();
+}
 
-// Frontend servito come sito statico (cartella "frontend" allo stesso livello di "backend")
-const FRONTEND_DIR = path.join(__dirname, "..", "frontend");
-app.use(express.static(FRONTEND_DIR));
+async function avvia() {
+  await initDatabase();
 
-app.use("/api", apiRouter);
+  const app = creaApp({ port: PORT });
+  const server = http.createServer(app);
+  realtime.init(server);
 
-app.use("/api", notFound);
+  server.listen(PORT, "0.0.0.0", async () => {
+    const localIP = getLocalIP();
+    const publicIP = await getPublicIP();
+    console.log(`\n✅ Server Gestionale Auto avviato con Socket.IO`);
+    console.log(`🌐 IP Pubblico: http://${publicIP}:${PORT}`);
+    console.log(`🏠 IP Locale:   http://${localIP}:${PORT}`);
+    console.log(`📍 Localhost:   http://localhost:${PORT}\n`);
+  });
+}
 
-// SPA fallback: tutte le altre rotte servono index.html
-app.get("*", (req, res) => {
-  res.sendFile(path.join(FRONTEND_DIR, "index.html"));
-});
-
-app.use(errorHandler);
-
-createTables();
-setTimeout(() => {
-  seed().catch((err) => console.error("Errore seed:", err));
-}, 300);
-
-app.listen(PORT, () => {
-  console.log(`\n🚗  Gestionale Auto Concessionaria avviato su http://localhost:${PORT}\n`);
+avvia().catch((err) => {
+  console.error("❌ Errore fatale in fase di avvio:", err);
+  process.exit(1);
 });
